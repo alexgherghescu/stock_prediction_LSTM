@@ -1,2 +1,2 @@
 # stock_prediction_LSTM
-Stock Prediction using LSTM
+ stock prediction using LSTM cells
