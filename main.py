@@ -19,6 +19,7 @@ from os import remove
 
 from shutil import copy
 
+VERSION_NUMBER = '0.0.2'
 
 def process_ticker(ticker):
     """
@@ -73,6 +74,7 @@ def process_ticker(ticker):
                         'dEMA_5', 'dEMA_10', 'dEMA_20', 'dEMA_40', 'dSTDEV_3', 'dSTDEV_5', 'dSTDEV_8', 'dSTDEV_15']
 
     EPOCHS = [500]  # [100,200,300,400,500]       # 10, 11
+    # code was used for optimization (to define the best parameters on the network)
     if int_forecast == FORECAST_5_DAYS:
         NETWORK_LEN = [48]
         # prediction samples
@@ -160,15 +162,17 @@ def process_ticker(ticker):
 
     #intDataFrameLength = 2456
     if int_status == STATUS_TRAINING:
-
+        # for tests
         #int_offset = int(int_dataframe_length / 2)       # 1940
-        int_offset = int_dataframe_length - 50
+        #int_offset = int_dataframe_length - 50
         #int_offset = int_dataframe_length - 200
         #int_offset = int_dataframe_length - 300
-        #int_offset = int_dataframe_length - 500
 
-        int_testing_length = int_dataframe_length - int_offset
+        int_offset = int_dataframe_length - 500
+
+        # for tests
         # int_testing_length = 2454 - int_offset
+        int_testing_length = int_dataframe_length - int_offset
 
         # default we process all data
         bln_process_only_new_data = False
@@ -272,15 +276,8 @@ def process_ticker(ticker):
                                     str_file_name += "-b"
                                 # combine data
                                 str_input_file_name = path.join('data_pred', f'{str_file_name}_pred.csv')
-                                #strInputFileName = path.join('data_proc', f'output_pred_{str_file_name}.csv')
                                 str_output_file_name = path.join('data_final', f'{str_file_name}.csv')
                                 obj_data_merger.merge_data(ticker=ticker, future_steps=future_steps, input_path=str_data_in_file_name, processed_path=str_input_file_name, output_path=str_output_file_name)
-
-    #    for future_steps in FUTURE_STEPS:
-    #        #strPathName = 'output_pred_' + str(future_steps) + '.csv'
-    #        strFileName = path.join('data_proc', f'output_pred_{future_steps}.csv')
-    #        objDataMerger.merge_data(ticker=ticker, future_steps=future_steps, input_path=strFileName)
-
 
         if not single_step:
             int_status = STATUS_BUILD_CHART
@@ -302,13 +299,9 @@ def process_ticker(ticker):
                                 str_file_name = f"{ticker}-seq-{network}-lookup-{future_steps}-layers-{n_layers}-units-{neurons}-dropout-{dropout}"
                                 if bidirectional:
                                     str_file_name += "-b"
-                                #strInputFileName = path.join('data_proc', f'final_{file_name}.csv')
                                 str_input_file_name = path.join('data_final', f'{str_file_name}.csv')
                                 # generate charts
                                 last_close, pred_high, pred_low = objChart.generate_chart(ticker=ticker, future_steps=future_steps, blnLive=False, input_path=str_input_file_name, folder_name=str_file_name)
-
-    #    for future_steps in FUTURE_STEPS:
-    #        objChart.generate_chart(ticker=ticker, future_steps=future_steps, blnLive=False)
 
         # save to txt file (for web page)
         # ticker, last_close, pred_high, pred_low
@@ -348,9 +341,9 @@ def main():
     # VGTSX - Vanguard Total Intl Stock Index Trust - 0.06%
     # ? - BNY Mellon EB Global Real Estate Sec II - 0.54%
 
-    tickers = ['VFFSX', 'VEXMX', 'AAPL']
-    tickers = ['ADI']
-    tickers = ['VOO']
+    tickers = ['VFFSX', 'VEXMX', 'AAPL', 'ADI', 'VOO']
+    #tickers = ['ADI']
+    #tickers = ['VOO']
 
     # check if destination folder exist
     strPathDestinationFile = path.join('web', 'data.txt')
@@ -373,8 +366,10 @@ def main():
             print(filePath)
 
 if __name__ == "__main__":
+    # print version
+    print('stock_prediction_LSTM ver.' + VERSION_NUMBER)
     # this is required to fix some issues when script is called from script.
-    print('current dir before: '+ getcwd())
+    #print('current dir before: '+ getcwd())
     str_script_folder = path.dirname(path.realpath(__file__))
     str_script_folder_upper = path.split(str_script_folder)[0]
     # change current folder to file script folder
@@ -385,6 +380,6 @@ if __name__ == "__main__":
         mkdir("data")
     str_script_folder = path.join(str_script_folder_upper, 'data')
     chdir(str_script_folder)
-    print('current dir after: ' + getcwd())
+    #print('current dir after: ' + getcwd())
     # call main() function
     main()
