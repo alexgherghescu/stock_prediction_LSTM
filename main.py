@@ -38,14 +38,14 @@ def process_ticker(ticker):
     STATUS_FINISHED = 6             # finished script
     # we start with download data
     int_status = STATUS_DOWNLOAD
-    int_status = STATUS_ADD_PARAMETERS
-    int_status = STATUS_TRAINING
-    int_status = STATUS_MERGE_DATA
-    int_status = STATUS_BUILD_CHART
+    #int_status = STATUS_ADD_PARAMETERS
+    #int_status = STATUS_TRAINING
+    #int_status = STATUS_MERGE_DATA
+    #int_status = STATUS_BUILD_CHART
 
     # this variable is used during development to perform only one step at a time
-    single_step = True
-    # single_step = False
+    #single_step = True
+    single_step = False
 
     # constants used to define the forcast interval
     FORECAST_TEST = 0               # used for testing (when we optimize parameters)

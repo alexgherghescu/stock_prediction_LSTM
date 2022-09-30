@@ -70,6 +70,7 @@ class DownloadFinancialData:
             # save df
             df_in.to_csv(str_file_name, index=False)
             if dat_date_last_old != dat_date_last:
+                # we have new data
                 bln_return = True
         else:
             if interval == '1h':
@@ -88,6 +89,8 @@ class DownloadFinancialData:
             df_in.rename(columns={'Unnamed: 0': 'datetime'}, inplace=True)
             # save df
             df_in.to_csv(str_file_name, index=False)
+            # we have data to process
+            bln_return = True
         # remove temp files
         if path.exists(str_file_name_temp):
             try:
