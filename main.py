@@ -19,7 +19,7 @@ from os import remove
 
 from shutil import copy
 
-VERSION_NUMBER = '0.0.2'
+VERSION_NUMBER = '0.0.3'
 
 def process_ticker(ticker):
     """
@@ -119,7 +119,7 @@ def process_ticker(ticker):
         # if we don't have any new data there is nothing to compute
         if not bln_new_data_available:
             #  --> exit
-            exit()
+            return None
         # if is not 'single step' we move to the next stage
         if not single_step:
             int_status = STATUS_ADD_PARAMETERS
