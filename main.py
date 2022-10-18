@@ -19,7 +19,7 @@ from os import remove
 
 from shutil import copy
 
-VERSION_NUMBER = '0.0.3'
+VERSION_NUMBER = '0.0.4'
 
 def process_ticker(ticker):
     """
@@ -313,6 +313,37 @@ def process_ticker(ticker):
         if not single_step:
             int_status = STATUS_FINISHED
 
+    # this code assumes: macOS + hemebrew + nginx + php
+    strPathDestinationFolder = '/opt/homebrew/var/www'
+    # copy data.txt
+    if path.isdir(strPathDestinationFolder):
+        strPathSource = path.join('web', 'data.txt')
+        # copy files
+        filePath = copy(strPathSource, strPathDestinationFolder)
+        print(filePath)
+
+    # copy pictures
+    strPathDestinationFolder = path.join(strPathDestinationFolder, 'img')
+    # check if destination folder exist
+    if path.isdir(strPathDestinationFolder):
+        strPathDestinationFolder = path.join(strPathDestinationFolder, ticker)
+        if not path.isdir(strPathDestinationFolder):
+            mkdir(strPathDestinationFolder)
+        # SRC
+        #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_20.png'
+        #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_60.png'
+        #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_120.png'
+        #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_250.png'
+        #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_500.png'
+        lstChartLenght = [20, 60, 120, 250, 500]
+        for intChartLength in lstChartLenght:
+            strFolderName = path.join('web', f'{ticker}-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b')
+            strPathSource = path.join(strFolderName, f'{ticker}_5_{intChartLength}.png')
+            # check if source file exist
+            if path.isfile(strPathSource):
+                # copy files
+                filePath = copy(strPathSource, strPathDestinationFolder)
+                print(filePath)
 
 
 def main():
