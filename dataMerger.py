@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #from dataclasses import dataclass, field
 #from multiprocessing import cpu_count, Pool

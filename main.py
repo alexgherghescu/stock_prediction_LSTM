@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3
+#!/usr/bin/python3
 #
 import downloadYahooFin
 import addFinancialParameters
@@ -18,8 +18,9 @@ from os import chdir
 from os import remove
 
 from shutil import copy
+from datetime import datetime
 
-VERSION_NUMBER = '0.0.4'
+VERSION_NUMBER = '0.0.5'
 
 def process_ticker(ticker):
     """
@@ -314,36 +315,42 @@ def process_ticker(ticker):
             int_status = STATUS_FINISHED
 
     # this code assumes: macOS + hemebrew + nginx + php
-    strPathDestinationFolder = '/opt/homebrew/var/www'
+    str_path_destination_folder = '/opt/homebrew/var/www'
     # copy data.txt
-    if path.isdir(strPathDestinationFolder):
-        strPathSource = path.join('web', 'data.txt')
+    if path.isdir(str_path_destination_folder):
+        str_path_source = path.join('web', 'data.txt')
         # copy files
-        filePath = copy(strPathSource, strPathDestinationFolder)
-        print(filePath)
+        str_file_path = copy(str_path_source, str_path_destination_folder)
+        print(str_file_path)
+        # write timestamp
+        str_output_file_name = path.join(str_path_destination_folder, 'timestamp.txt')
+        obj_file = open(str_output_file_name, 'w')
+        str_current_datetime = datetime.now()
+        obj_file.write(str_current_datetime)
+        obj_file.close()
 
     # copy pictures
-    strPathDestinationFolder = path.join(strPathDestinationFolder, 'img')
+    str_path_destination_folder = path.join(str_path_destination_folder, 'img')
     # check if destination folder exist
-    if path.isdir(strPathDestinationFolder):
-        strPathDestinationFolder = path.join(strPathDestinationFolder, ticker)
-        if not path.isdir(strPathDestinationFolder):
-            mkdir(strPathDestinationFolder)
+    if path.isdir(str_path_destination_folder):
+        str_path_destination_folder = path.join(str_path_destination_folder, ticker)
+        if not path.isdir(str_path_destination_folder):
+            mkdir(str_path_destination_folder)
         # SRC
         #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_20.png'
         #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_60.png'
         #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_120.png'
         #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_250.png'
         #'/web/AAPL-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b/AAPL_5_500.png'
-        lstChartLenght = [20, 60, 120, 250, 500]
-        for intChartLength in lstChartLenght:
-            strFolderName = path.join('web', f'{ticker}-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b')
-            strPathSource = path.join(strFolderName, f'{ticker}_5_{intChartLength}.png')
+        lst_chart_lenght = [20, 60, 120, 250, 500]
+        for int_chart_length in lst_chart_lenght:
+            str_folder_name = path.join('web', f'{ticker}-seq-48-lookup-5-layers-3-units-256-dropout-0.4-b')
+            str_path_source = path.join(str_folder_name, f'{ticker}_5_{int_chart_length}.png')
             # check if source file exist
-            if path.isfile(strPathSource):
+            if path.isfile(str_path_source):
                 # copy files
-                filePath = copy(strPathSource, strPathDestinationFolder)
-                print(filePath)
+                str_file_path = copy(str_path_source, str_path_destination_folder)
+                print(str_file_path)
 
 
 def main():
