@@ -314,7 +314,7 @@ def process_ticker(ticker):
         if not single_step:
             int_status = STATUS_FINISHED
 
-    # this code assumes: macOS + hemebrew + nginx + php
+    # this code assumes: macOS + homebrew + nginx + php
     str_path_destination_folder = '/opt/homebrew/var/www'
     # copy data.txt
     if path.isdir(str_path_destination_folder):
@@ -325,8 +325,8 @@ def process_ticker(ticker):
         # write timestamp
         str_output_file_name = path.join(str_path_destination_folder, 'timestamp.txt')
         obj_file = open(str_output_file_name, 'w')
-        str_current_datetime = datetime.now()
-        obj_file.write(str_current_datetime)
+        dat_current_datetime = datetime.now()
+        obj_file.write(str(dat_current_datetime))
         obj_file.close()
 
     # copy pictures
