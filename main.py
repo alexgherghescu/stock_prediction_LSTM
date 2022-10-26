@@ -123,9 +123,11 @@ def process_ticker(ticker):
             #return None
             if not single_step:
                 int_status = STATUS_BUILD_CHART
+                print('STATUS_BUILD_CHART')
         # if is not 'single step' we move to the next stage
         if not single_step:
             int_status = STATUS_ADD_PARAMETERS
+            print('STATUS_ADD_PARAMETERS')
 
     # create folders if they don't exist
     if not path.isdir("data_financial"):
