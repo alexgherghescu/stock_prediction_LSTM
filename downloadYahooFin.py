@@ -49,6 +49,7 @@ class DownloadFinancialData:
                 dat_start_date = dat_date_last - timedelta(days=10)
                 dat_end_date = datetime.now().date() + timedelta(days=1)  # to avoid issues with time_delta relative to GMT
             dat_date_last_old = dat_date_last
+            print('dat_date_last_old=' + str(dat_date_last_old))
             # this is first time --> we download max amount.
             # load it from yahoo_fin library
             df_in_new = yf.download(tickers=ticker, start=dat_start_date, end=dat_end_date, interval=interval)
@@ -64,6 +65,7 @@ class DownloadFinancialData:
             fltDateSecondsLast = (dat64_date_max - np.datetime64('1970-01-01T00:00:00Z')) / np.timedelta64(1, 's')
             # convert to datetime
             dat_date_last = datetime.utcfromtimestamp(fltDateSecondsLast)
+            print('dat_date_last=' + str(dat_date_last))
 
             # convert Date to string
             df_in['Date'] = df_in['Date'].apply(lambda x: datetime.strftime(x, '%Y-%m-%d'))
