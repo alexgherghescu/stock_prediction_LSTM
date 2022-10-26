@@ -119,15 +119,15 @@ def process_ticker(ticker):
         bln_new_data_available = obj_download_data.download_data(ticker=ticker, interval=interval, output_path=str_data_in_file_name)
         # if we don't have any new data there is nothing to compute
         if not bln_new_data_available:
-            #  --> exit
-            #return None
+            # jump to build chart
             if not single_step:
                 int_status = STATUS_BUILD_CHART
-                print('STATUS_BUILD_CHART')
-        # if is not 'single step' we move to the next stage
-        if not single_step:
-            int_status = STATUS_ADD_PARAMETERS
-            print('STATUS_ADD_PARAMETERS')
+                #print('STATUS_BUILD_CHART')
+        else:
+            # if is not 'single step' we move to the next stage
+            if not single_step:
+                int_status = STATUS_ADD_PARAMETERS
+                #print('STATUS_ADD_PARAMETERS')
 
     # create folders if they don't exist
     if not path.isdir("data_financial"):
