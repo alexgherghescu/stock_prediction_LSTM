@@ -74,6 +74,7 @@ class DownloadFinancialData:
             if dat_date_last_old != dat_date_last:
                 # we have new data
                 bln_return = True
+                print('dat_date are different')
         else:
             if interval == '1h':
                 # for 1h tick we limit to 730 days
